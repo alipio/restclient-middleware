@@ -1,0 +1,7 @@
+/coverage/
+/.env*
+!/.env.example
+/.tool-versions
+.byebug_history
+.rspec_status
+tags
