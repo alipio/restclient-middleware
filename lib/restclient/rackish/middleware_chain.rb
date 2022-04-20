@@ -2,7 +2,7 @@
 
 module RestClient
   class Rackish
-    class MiddlewareStack
+    class MiddlewareChain
       class Middleware
         attr_reader :args, :klass
 

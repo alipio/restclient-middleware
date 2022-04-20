@@ -35,10 +35,8 @@ module RestClient
       end
     end
 
-    alias original_execute execute
-
-    def execute(&block)
-      return original_execute(&block) unless RestClient.middleware.any?
+    def execute_with_chain(&block)
+      return execute_without_chain(&block) unless RestClient.middleware.any?
 
       env = to_rack_env
       env.delete_if { |_, v| v.nil? }
@@ -46,6 +44,8 @@ module RestClient
       response = RestClient.middleware.build(RestClient.default_app).call(env)
       process_response(env, response, &block)
     end
+    alias execute_without_chain execute
+    alias execute execute_with_chain
 
     private
 

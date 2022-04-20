@@ -3,7 +3,7 @@
 require 'rack'
 require 'restclient'
 
-require_relative 'rackish/middleware_stack'
+require_relative 'rackish/middleware_chain'
 require_relative 'rackish/restclient_ext'
 require_relative 'rackish/logging/middleware'
 
@@ -14,7 +14,7 @@ module RestClient
     def_delegators :middleware, :unshift, :insert_before, :insert_after, :delete!, :use
 
     def middleware
-      @middleware ||= Rackish::MiddlewareStack.new
+      @middleware ||= Rackish::MiddlewareChain.new
       yield @middleware if block_given?
       @middleware
     end
@@ -35,7 +35,7 @@ module RestClient
       request = restore_request(env)
 
       begin
-        env['restclient.response'] = request.original_execute
+        env['restclient.response'] = request.execute_without_chain
       rescue ExceptionWithResponse => e
         raise e if e.response.nil?
 
