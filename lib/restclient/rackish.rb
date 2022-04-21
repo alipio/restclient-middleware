@@ -39,8 +39,8 @@ module RestClient
       rescue ExceptionWithResponse => e
         raise e if e.response.nil?
 
-        env['restclient.error'] = e
-        env['restclient.response'] = e.response
+        env['restclient.error']     = e
+        env['restclient.response']  = e.response
       end
 
       @app.call(env)
