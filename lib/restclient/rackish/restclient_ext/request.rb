@@ -42,6 +42,7 @@ module RestClient
       env.delete_if { |_, v| v.nil? }
 
       response = RestClient.middleware.build(RestClient.default_app).call(env)
+
       process_response(env, response, &block)
     end
     alias execute_without_chain execute
